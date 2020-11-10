@@ -1,6 +1,5 @@
 package com.momate.reminder.javaee.web;
 
-import com.momate.reminder.javaee.dao.UserDao;
 import com.momate.reminder.javaee.model.User;
 import com.momate.reminder.javaee.service.UserService;
 import java.io.IOException;
@@ -19,7 +18,7 @@ public class RegistrationServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        
+
         request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 
@@ -30,15 +29,17 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
-        User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setUsername(username);
-        user.setPassword(password);
-
-        dao.save(user);
         
+        if (!service.validate(username)) {
+            User user = new User();
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setUsername(username);
+            user.setPassword(password);
+
+            service.addUser(user);
+        }
+
         request.getRequestDispatcher("register.jsp").forward(request, response);
 
     }
