@@ -1,43 +1,53 @@
 header{
     
-    text-align:center;
-    padding:10px 0px; 
-  }
-  
+   text-align:center;
+   padding:10px 0px; 
+   background-color: cornflowerblue;
+   font-family: 'Roboto', sans-serif;
+ }
+ 
 
 .inner-navbar{
-    width: 70%;
-    height: 100%;
-    display: block;
-    margin: 0 auto;
-   
+   width: 70%;
+   height: 100%;
+   display: block;
+   margin: 0 auto;
+  
 }
 
 .logo_container{
-   height: 100%;
-   display: table;
-   float: left;
+  height: 100%;
+  display: table;
+  float: left;
 }
 
 .logo_container h1{
-   color: black;
-   height: 100%;
-   display: table-cell;
-   vertical-align: middle;
-   font-family: 'Abril Fatface', cursive;
-   font-size: 36px;
+   color: white;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 36px;
 }
 
 .navigation{
-   float: right;
-   height: 100%;
+  float: right;
+  height: 100%;
 }
 .navigation a{
-   height: 100%;
-   display: table;
-   float: left;
-   padding: 0px 20px;
+  height: 100%;
+  display: table;
+  float: left;
+  padding: 0px 20px;
 }
 .navigation a :last-child{
-   padding-right: 0px;
+  padding-right: 0px;
+}
+
+.navigation a li{
+   color: white;
+  display: table-cell;
+  vertical-align: middle;
+  height: 100%;
+  font-size: 20px;
+ 
 }

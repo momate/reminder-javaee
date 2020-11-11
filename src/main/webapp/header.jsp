@@ -1,4 +1,4 @@
-
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css"  href="header.css">
 <header>
     <div class="navbar">
@@ -8,7 +8,9 @@
             </div>
 
             <ul class="navigation">
-                <li><a href="<%= request.getContextPath()%>/register" class="nav-link">Sign up</a></li>
-                <li><a href="<%= request.getContextPath()%>/login" class="nav-link">Login</a></li>
+                <a href="<%= request.getContextPath() %>/register"> <li >Sign Up</li></a>
+                <a href="<%= request.getContextPath() %>/login"><li>Login</li></a>
             </ul>        
         </div>       
+    </div>
+</header>
