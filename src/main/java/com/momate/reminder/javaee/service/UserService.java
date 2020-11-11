@@ -4,10 +4,12 @@ import com.momate.reminder.javaee.dao.LoginAuthenticater;
 import com.momate.reminder.javaee.dao.UserDao;
 import com.momate.reminder.javaee.model.User;
 import java.util.Optional;
+import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 @Singleton
+@LocalBean
 public class UserService implements LoginAuthenticater {
 
     @Inject

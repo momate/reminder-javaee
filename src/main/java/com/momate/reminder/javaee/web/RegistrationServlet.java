@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/register")
+@WebServlet(urlPatterns = "/register")
 public class RegistrationServlet extends HttpServlet {
 
     @Inject
@@ -19,7 +19,7 @@ public class RegistrationServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+       response.sendRedirect("register.jsp");
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)

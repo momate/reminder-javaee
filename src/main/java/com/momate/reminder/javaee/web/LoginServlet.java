@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("login/login.jsp");
+        response.sendRedirect("login.jsp");
     }
 
     @Override
@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         if (service.validate(username, password)) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("reminder/reminder-list.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("reminder-list.jsp");
             dispatcher.forward(request, response);
         } else {
             //TODO

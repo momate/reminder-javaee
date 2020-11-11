@@ -46,7 +46,7 @@ public class UserDao implements CrudRepository<User, Long> {
     @Override
     public Optional<User> findById(Long id) {
         try {
-            User user = (User) em.createQuery("SELECT u FROM User u WHERE id?=id")
+            User user = (User) em.createQuery("SELECT u FROM User u WHERE u.id?=id")
                     .setParameter("id", id.toString())
                     .getSingleResult();
 
@@ -59,7 +59,7 @@ public class UserDao implements CrudRepository<User, Long> {
     
        public Optional<User> findByUsername(String username) {
         try {
-            User user = (User) em.createQuery("SELECT u FROM User u WHERE username?=username")
+            User user = (User) em.createQuery("SELECT u FROM User u WHERE u.username?=username")
                     .setParameter("username", username)
                     .getSingleResult();
 
