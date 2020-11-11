@@ -1,6 +1,7 @@
 package com.momate.reminder.javaee.dao;
 
 import com.momate.reminder.javaee.model.Reminder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.LocalBean;
@@ -55,6 +56,18 @@ public class ReminderDao implements CrudRepository<Reminder, Long> {
         } catch (NoResultException e) {
             return Optional.empty();
         }
+    }
+
+    public List<Reminder> findByUserId(Long id) {
+
+        List w = (List) em.createQuery("SELECT r FROM Reminder r WHERE r.userId.userId = :id")
+                .setParameter("id", id)
+                .getResultList();
+
+        if (!w.isEmpty()) {
+            return w;
+        }
+        return new ArrayList<>();
     }
 
     @Override
