@@ -33,10 +33,10 @@
                                     <h5 class="mb-1"><c:out value="${r.getTitle()}"/></h5>
                                     <small href="#">Edit</small>
                                 </div>
-                                <p class="mb-1"><c:out value="${r.getDiscription()}"/></p>
-                                <small>small section TODO</small>
+                                <p class="mb-1"><c:out value="${r.getDescription()}"/></p>
+                                <small><c:out value="${r.getTargetDate()}"/></small>
                             </a>
-                        </c:forEach> 
+                 </c:forEach>
 
                     </div>
                 </div>

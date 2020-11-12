@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -28,10 +29,13 @@ public class LoginServlet extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        HttpSession session = request.getSession();
 
         if (service.validate(username, password)) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("reminder-list.jsp");
-            dispatcher.forward(request, response);
+
+            session.setAttribute("userId", service.getUserByUsername(username).getId());
+
+            response.sendRedirect("list");
         } else {
             //TODO
 

@@ -23,15 +23,19 @@ public class UserService implements LoginAuthenticater {
         return u.isPresent() && password.equals(u.get().getPassword());
 
     }
-    
-      public boolean validate(String username) {
+
+    public boolean validate(String username) {
 
         return dao.findByUsername(username).isPresent();
 
     }
-    
-    public void addUser(User user){
+
+    public void addUser(User user) {
         dao.save(user);
+    }
+
+    public User getUserByUsername(String username) {
+        return dao.findByUsername(username).get();
     }
 
 }

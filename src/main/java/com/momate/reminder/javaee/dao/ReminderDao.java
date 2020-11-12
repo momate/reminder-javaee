@@ -48,7 +48,7 @@ public class ReminderDao implements CrudRepository<Reminder, Long> {
     @Override
     public Optional<Reminder> findById(Long id) {
         try {
-            Reminder reminder = (Reminder) em.createQuery("SELECT r FROM Reminder WHERE r.id=:id")
+            Reminder reminder = (Reminder) em.createQuery("SELECT r FROM Reminder r WHERE r.id=:id")
                     .setParameter("id", id.toString())
                     .getSingleResult();
 
@@ -60,14 +60,10 @@ public class ReminderDao implements CrudRepository<Reminder, Long> {
 
     public List<Reminder> findByUserId(Long id) {
 
-        List w = (List) em.createQuery("SELECT r FROM Reminder r WHERE r.userId.userId = :id")
+        return (List) em.createQuery("SELECT r FROM Reminder r WHERE r.user.id = :id")
                 .setParameter("id", id)
                 .getResultList();
 
-        if (!w.isEmpty()) {
-            return w;
-        }
-        return new ArrayList<>();
     }
 
     @Override
