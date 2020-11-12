@@ -32,8 +32,9 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         if (service.validate(username, password)) {
-
-            session.setAttribute("userId", service.getUserByUsername(username).getId());
+            
+            session.setAttribute("loggedUserId", service.getUserByUsername(username).getId());
+            session.setAttribute("loggedUsername", username);
 
             response.sendRedirect("list");
         } else {

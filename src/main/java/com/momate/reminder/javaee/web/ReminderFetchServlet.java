@@ -22,7 +22,7 @@ public class ReminderFetchServlet extends HttpServlet {
 
         Long userId = Long.parseLong(
                 request.getSession()
-                        .getAttribute("userId")
+                        .getAttribute("loggedUserId")
                         .toString());
         System.out.println(userId);
 
