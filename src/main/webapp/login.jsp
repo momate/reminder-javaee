@@ -15,7 +15,7 @@
         <%@include file="header.jsp" %>
         <div class="container col-md-8 col-md-offset-3" style="overflow: auto">
             <h1>Login Form</h1>
-            <form action="<%=request.getContextPath()%>/login" method="post">
+            <form method="post" action="LoginServlet">
 
                 <div class="form-group">
                     <input type="text" class="form-control" id="username" placeholder="Username"
@@ -27,7 +27,7 @@
                            name="password" required>
                 </div>
 
-
+ 
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

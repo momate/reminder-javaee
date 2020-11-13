@@ -20,7 +20,7 @@
 
                     <h1 class="display-4 text-center">Reminders</h1>
                     <br>
-                    <a class="btn btn-primary" role="button" href="<%= request.getContextPath()%>/add">Add Reminder</a>
+                    <a class="btn btn-primary" href="<%=request.getContextPath()%>/add" role="button">Add Reminder</a>
                     <br>
                     <hr>
 
@@ -31,12 +31,14 @@
                             <a class="list-group-item list-group-item-action flex-column align-items-start ">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1"><c:out value="${r.getTitle()}"/></h5>
-                                    <small href="#">Edit</small>
+                                   <form method = "post" action="edit">
+                                    <input type="button" name="edit" id="${r.getId()}" value="Edit">
+                                </form>
                                 </div>
                                 <p class="mb-1"><c:out value="${r.getDescription()}"/></p>
                                 <small><c:out value="${r.getTargetDate()}"/></small>
                             </a>
-                 </c:forEach>
+                        </c:forEach>
 
                     </div>
                 </div>

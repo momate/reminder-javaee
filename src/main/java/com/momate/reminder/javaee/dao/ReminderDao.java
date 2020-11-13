@@ -21,10 +21,6 @@ public class ReminderDao implements CrudRepository<Reminder, Long> {
     public void save(Reminder entity) {
         if (entity == null) {
             throw new IllegalArgumentException();
-        }
-
-        if (existsById(entity.getId())) {
-            em.merge(entity);
         } else {
             em.persist(entity);
         }

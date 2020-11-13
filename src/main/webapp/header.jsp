@@ -6,7 +6,7 @@
     <div class="navbar">
         <div class="inner-navbar">
             <div class="logo_container">
-                <h1>Reminder App</h1>
+                <h1> <a href="index.jsp" target="target">Reminder App <a/></h1>
             </div>
 
             <ul class="navigation">
@@ -17,7 +17,7 @@
                         </c:if>
                         <c:if test="${empty loggedUserId}">
                     <a href="<%= request.getContextPath()%>/register"> <li>Sign Up</li></a>             
-                    <a href="<%= request.getContextPath()%>/login"><li>Login</li></a>
+                    <a href="login.jsp"><li>Login</li></a>
                         </c:if>
 
             </ul>        

@@ -45,7 +45,7 @@ public class UserDao implements CrudRepository<User, Long> {
     public Optional<User> findById(Long id) {
         try {
             User user = (User) em.createQuery("SELECT u FROM User u WHERE u.id=:id")
-                    .setParameter("id", id.toString())
+                    .setParameter("id", id)
                     .getSingleResult();
             
             return Optional.of(user);
