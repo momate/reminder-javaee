@@ -1,7 +1,6 @@
 package com.momate.reminder.javaee.dao;
 
 import com.momate.reminder.javaee.model.Reminder;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.LocalBean;
@@ -34,8 +33,8 @@ public class ReminderDao implements CrudRepository<Reminder, Long> {
 
     @Override
     public void delete(Reminder entity) {
-        if (existsById(entity.getId())) {
-        }
+        entity = em.merge(entity);
+        em.remove(entity);
     }
 
     @Override
