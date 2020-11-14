@@ -28,6 +28,10 @@ public class ReminderDao implements CrudRepository<Reminder, Long> {
         em.flush();
     }
 
+    public void update(Reminder entity) {
+        em.merge(entity);
+    }
+
     @Override
     public void delete(Reminder entity) {
         if (existsById(entity.getId())) {
@@ -45,7 +49,7 @@ public class ReminderDao implements CrudRepository<Reminder, Long> {
     public Optional<Reminder> findById(Long id) {
         try {
             Reminder reminder = (Reminder) em.createQuery("SELECT r FROM Reminder r WHERE r.id=:id")
-                    .setParameter("id", id.toString())
+                    .setParameter("id", id)
                     .getSingleResult();
 
             return Optional.of(reminder);

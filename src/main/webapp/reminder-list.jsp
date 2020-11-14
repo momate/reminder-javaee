@@ -31,9 +31,10 @@
                             <a class="list-group-item list-group-item-action flex-column align-items-start ">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1"><c:out value="${r.getTitle()}"/></h5>
-                                   <form method = "post" action="edit">
-                                    <input type="button" name="edit" id="${r.getId()}" value="Edit">
-                                </form>
+                                    <form method = "get" action="edit">
+                                        <input type="hidden" name="reminderId" value="${r.getId()}" />
+                                        <input type="submit" value="Edit">
+                                    </form>
                                 </div>
                                 <p class="mb-1"><c:out value="${r.getDescription()}"/></p>
                                 <small><c:out value="${r.getTargetDate()}"/></small>

@@ -28,8 +28,6 @@ public class ReminderFetchServlet extends HttpServlet {
 
         List<Reminder> reminders = dao.findByUserId(userId);
         
-        reminders.stream().forEach( w -> System.out.println(w.getTitle() + " " + w.getDescription()));
-
         request.setAttribute("reminders", reminders);
         request.getRequestDispatcher("reminder-list.jsp").forward(request, response);
     }
