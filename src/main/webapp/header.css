@@ -4,6 +4,7 @@ header{
    padding:10px 0px; 
    background-color: cornflowerblue;
    font-family: 'Roboto', sans-serif;
+    
  }
  
 
@@ -22,11 +23,17 @@ header{
 }
 
 .logo_container h1{
-   color: white;
+   
   height: 100%;
   display: table-cell;
   vertical-align: middle;
-  font-size: 36px;
+  font-size: 36px;  
+}
+
+.logo_container h1 a{
+  color: white;
+  text-decoration: none;
+  
 }
 
 .navigation{

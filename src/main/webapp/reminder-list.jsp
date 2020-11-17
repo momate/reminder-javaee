@@ -38,11 +38,12 @@ a.custom-card:hover {
                         <a class="list-group-item list-group-item-action flex-column align-items-start ">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1"><c:out value="${r.getTitle()}"/></h5>
-                                <div class="text-center"> 
+                                <div class="btn-group"> 
                                 <form method = "get" action="edit">
                                     <input type="hidden" name="reminderId" value="${r.getId()}" />
                                     <button type="submit" class="btn btn-outline-primary">Edit</button>
                                 </form>
+                                
                                      <form method = "post" action="delete">
                                     <input type="hidden" name="reminderId" value="${r.getId()}" />
                                     <button type="submit" class="btn btn-outline-danger" onclick="confirmRemove(event)">Remove</button>

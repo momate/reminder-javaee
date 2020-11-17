@@ -6,13 +6,13 @@
     <div class="navbar">
         <div class="inner-navbar">
             <div class="logo_container">
-                <h1> <a href="index.jsp" target="target">Reminder App <a/></h1>
+                <h1> <a class="index" href="index.jsp" target="target">Reminder App <a/></h1>
             </div>
 
             <ul class="navigation">
 
                 <c:if test="${not empty loggedUserId}">
-                    <a><li><c:out value="${loggedUsername}"/></li></a>
+                    <a><li> Hi <i><c:out value="${loggedUsername}"/></i>!</li></a>
                     <a href="<%= request.getContextPath()%>/logout"><li>Log Out</li></a>      
                         </c:if>
                         <c:if test="${empty loggedUserId}">
