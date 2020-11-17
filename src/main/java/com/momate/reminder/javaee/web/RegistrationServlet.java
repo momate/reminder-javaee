@@ -25,31 +25,46 @@ public class RegistrationServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
+        boolean canSave = true;
+
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (service.validate(username)) {
+        if (service.validateUsername(username)) {
             String wUsername = "The username is taken, try another!";
+            canSave = false;
             request.setAttribute("wrongUsername", wUsername);
         }
-        
-        if(service.validate(email)){
+
+        if (service.validateEmail(email)) {
             String wEmail = "The email is already used!";
+            canSave = false;
             request.setAttribute("wrongEmail", wEmail);
         }
 
-        User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setUsername(username);
-        user.setPassword(password);
+        if (!service.validatePassword(password)) {
+            String wPassword = "Password must contain at least one letter, at least one number, and be longer than six charaters!";
+            canSave = false;
+            request.setAttribute("wrongPassword", wPassword);
+        }
 
-        service.addUser(user);
-        
-        String succes = "Successful registration!";
-        request.setAttribute("succes", succes);
+        if (canSave) {
+            User user = new User();
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setEmail(email);
+            user.setUsername(username);
+            user.setPassword(password);
+
+            service.addUser(user);
+
+            String succes = "Successful registration!";
+            request.setAttribute("succes", succes);
+        }
+
         request.getRequestDispatcher("register.jsp").forward(request, response);
 
     }

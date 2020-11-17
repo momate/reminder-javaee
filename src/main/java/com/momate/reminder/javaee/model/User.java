@@ -24,6 +24,8 @@ public class User implements Serializable{
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @Column(name = "email")
+    private String email; 
     @Column(name = "username")
     private String username;
     @Column(name = "password")
@@ -32,18 +34,7 @@ public class User implements Serializable{
     
     @OneToMany(mappedBy = "user")
     private List<Reminder> reminders;
-
-    public User() {
-    }
-
-    public User(Long id, String firstName, String lastName, String username, String password, List<Reminder> reminders) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.reminders = reminders;
-    }
+    
 
     public Long getId() {
         return id;
@@ -67,6 +58,14 @@ public class User implements Serializable{
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -93,12 +92,9 @@ public class User implements Serializable{
         this.reminders = reminders;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
+  
+
+ 
 
     @Override
     public boolean equals(Object obj) {

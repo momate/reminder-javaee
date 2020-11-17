@@ -23,11 +23,18 @@ public class UserService implements LoginAuthenticater {
         return u.isPresent() && password.equals(u.get().getPassword());
 
     }
+    
 
-    public boolean validate(String username) {
-
+    public boolean validateUsername(String username) {
         return dao.findByUsername(username).isPresent();
+    }
 
+    public boolean validateEmail(String email) {
+        return dao.findByEmail(email).isPresent();
+    }
+
+    public boolean validatePassword(String password) {
+        return password.matches("^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$");
     }
 
     public void addUser(User user) {

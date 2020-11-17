@@ -68,6 +68,19 @@ public class UserDao implements CrudRepository<User, Long> {
         }
     }
     
+    public Optional<User> findByEmail(String email){
+        try {
+            User user = (User) em.createQuery("SELECT u FROM User u WHERE u.email=:email")
+                    .setParameter("email", email)
+                    .getSingleResult();
+            
+            return Optional.of(user);
+            
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+    
     @Override
     public boolean existsById(Long id) {
         return findById(id).isPresent();
