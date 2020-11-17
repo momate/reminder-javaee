@@ -19,7 +19,7 @@ public class RegistrationServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-       response.sendRedirect("register.jsp");
+        response.sendRedirect("register.jsp");
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -29,17 +29,27 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
-        if (!service.validate(username)) {
-            User user = new User();
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setUsername(username);
-            user.setPassword(password);
 
-            service.addUser(user);
+        if (service.validate(username)) {
+            String wUsername = "The username is taken, try another!";
+            request.setAttribute("wrongUsername", wUsername);
+        }
+        
+        if(service.validate(email)){
+            String wEmail = "The email is already used!";
+            request.setAttribute("wrongEmail", wEmail);
         }
 
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setUsername(username);
+        user.setPassword(password);
+
+        service.addUser(user);
+        
+        String succes = "Successful registration!";
+        request.setAttribute("succes", succes);
         request.getRequestDispatcher("register.jsp").forward(request, response);
 
     }

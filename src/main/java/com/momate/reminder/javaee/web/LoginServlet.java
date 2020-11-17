@@ -18,11 +18,13 @@ public class LoginServlet extends HttpServlet {
     @Inject
     private UserService service;
 
-//    @Override
-//    public void doGet(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        response.sendRedirect("login.jsp");
-//    }
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String notification = "Wrong username or password!" ;
+           request.setAttribute("NOTIFICATION", notification);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+    }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -39,8 +41,8 @@ public class LoginServlet extends HttpServlet {
 
             response.sendRedirect("list");
         } else {
-            //TODO
-
+  
+           response.sendRedirect("login");
         }
 
     }

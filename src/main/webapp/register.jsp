@@ -25,6 +25,7 @@
                                 <div class="card">
                                     <div class="card-header text-center"><h2>Create Your Account</h2></div>
                                     <div class="card-body">
+                                       <h2 style="color:green;><c:out value="${Succes}"/></h2>
         
                                         <form class="form-horizontal" method="post" action="register">
         
@@ -47,19 +48,23 @@
                                             </div>
 
                                             <div class="form-group">
+                                                
                                                 <label for="email" class="cols-sm-2 control-label">Your Email</label>
                                                 <div class="cols-sm-10">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="email" id="email" placeholder="Enter your Email" required/>
+                                                        <p style="color:red;"><c:out value="${wrongEmail}"/></p>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
+                                                
                                                 <label for="username" class="cols-sm-2 control-label">Username</label>
                                                 <div class="cols-sm-10">
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" name="username" id="username" placeholder="Enter your Username" required/>
+                                                        <p style="color:red;"><c:out value="${wrongUsername}"/></p> 
                                                     </div>
                                                 </div>
                                             </div>

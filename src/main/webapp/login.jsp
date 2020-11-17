@@ -23,7 +23,7 @@
                                 <div class="card">
                                     <div class="card-header text-center"><h2>Login</h2></div>
                                     <div class="card-body">
-        
+                                        <p style="color:red;"><c:out value="${NOTIFICATION}" /></p> 
                                         <form class="form-horizontal" method="post" action="login">
 
                                             <div class="form-group">
