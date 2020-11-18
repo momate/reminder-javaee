@@ -16,7 +16,7 @@
                     <a href="<%= request.getContextPath()%>/logout"><li>Log Out</li></a>      
                         </c:if>
                         <c:if test="${empty loggedUserId}">
-                    <a href="<%= request.getContextPath()%>/register"> <li>Sign Up</li></a>             
+                    <a href="register.jsp"> <li>Sign Up</li></a>             
                     <a href="login.jsp"><li>Login</li></a>
                         </c:if>
 

@@ -16,15 +16,15 @@ public class UserService implements LoginAuthenticater {
     private UserDao dao;
 
     @Override
-    public boolean validate(String username, String password) {
+    public boolean validateLogin(String username, String password) {
 
         Optional<User> u = dao.findByUsername(username);
 
         return u.isPresent() && password.equals(u.get().getPassword());
 
     }
+   
     
-
     public boolean validateUsername(String username) {
         return dao.findByUsername(username).isPresent();
     }

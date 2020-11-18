@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         HttpSession session = request.getSession();
 
-        if (service.validate(username, password)) {
+        if (service.validateLogin(username, password)) {
             
             session.setAttribute("loggedUserId", service.getUserByUsername(username).getId());
             session.setAttribute("loggedUsername", username);

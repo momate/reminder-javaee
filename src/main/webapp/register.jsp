@@ -53,8 +53,8 @@
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="email" id="email" placeholder="Enter your Email" required/>
-                                        <p style="color:red;"><c:out value="${wrongEmail}"/></p>
                                     </div>
+                                    <p style="color:red;"><c:out value="${wrongEmail}"/></p>
                                 </div>
                             </div>
 
@@ -64,8 +64,8 @@
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="username" id="username" placeholder="Enter your Username" required/>
-                                        <p style="color:red;"><c:out value="${wrongUsername}"/></p> 
                                     </div>
+                                    <p style="color:red;"><c:out value="${wrongUsername}"/></p> 
                                 </div>
                             </div>
 

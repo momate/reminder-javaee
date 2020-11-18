@@ -37,7 +37,7 @@
                     <h1 class="display-3 mb-4">Welcome to Reminder!</h1>
                     <p class="lead">Create your account and make your first reminder.</p>
                     <hr>
-                    <a class="btn btn-lg btn-primary mr-2" href="<%= request.getContextPath()%>/register">Try it!</a>
+                    <a class="btn btn-lg btn-primary mr-2" href="register.jsp">Try it!</a>
                     
                 </div>
             </div>
