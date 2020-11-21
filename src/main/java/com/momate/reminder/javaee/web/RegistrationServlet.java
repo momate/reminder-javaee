@@ -3,6 +3,7 @@ package com.momate.reminder.javaee.web;
 import com.momate.reminder.javaee.model.User;
 import com.momate.reminder.javaee.service.UserService;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,12 +19,6 @@ public class RegistrationServlet extends HttpServlet {
     @Inject
     private UserService service;
 
-//    public void doGet(HttpServletRequest request, HttpServletResponse response)
-//            throws IOException, ServletException {
-//
-//        response.sendRedirect("register.jsp");
-//    }
-
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
@@ -31,7 +26,11 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String password = "";
+        
+        try {
+            password = service.encryptPassword(request.getParameter("password"));
+        } catch (NoSuchAlgorithmException ex){}
 
         User user = new User();
         user.setFirstName(firstName);

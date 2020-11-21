@@ -3,6 +3,9 @@ package com.momate.reminder.javaee.service;
 import com.momate.reminder.javaee.dao.LoginAuthenticater;
 import com.momate.reminder.javaee.dao.UserDao;
 import com.momate.reminder.javaee.model.User;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
@@ -43,6 +46,19 @@ public class UserService implements LoginAuthenticater {
 
     public User getUserByUsername(String username) {
         return dao.findByUsername(username).get();
+    }
+    
+       public String encryptPassword(String psw) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(psw.getBytes(Charset.forName("UTF-8")));
+
+        byte[] digest = md.digest();
+        StringBuilder sb = new StringBuilder();
+        for (byte b : digest) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+
+        return sb.toString();
     }
 
 }
