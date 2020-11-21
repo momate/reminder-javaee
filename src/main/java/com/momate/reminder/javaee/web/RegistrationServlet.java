@@ -18,7 +18,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Inject
     private UserService service;
-
+    
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
@@ -40,7 +40,7 @@ public class RegistrationServlet extends HttpServlet {
         user.setPassword(password);
 
         service.addUser(user);
-
+        
         request.setAttribute("succes", SUCCES_MSG);
 
         request.getRequestDispatcher("register.jsp")
