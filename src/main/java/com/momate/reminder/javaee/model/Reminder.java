@@ -6,7 +6,7 @@
 package com.momate.reminder.javaee.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +29,7 @@ public class Reminder implements Serializable {
     @Column(name = "description")
     private String description;
     @Column(name = "target_date")
-    private LocalDate targetDate;
+    private LocalDateTime targetDate;
     @Column(name = "status")
     private boolean status;
 
@@ -40,7 +40,7 @@ public class Reminder implements Serializable {
     public Reminder() {
     }
 
-    public Reminder(Long id, String title, String description, LocalDate targetDate, boolean status, User user) {
+    public Reminder(Long id, String title, String description, LocalDateTime targetDate, boolean status, User user) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -73,11 +73,11 @@ public class Reminder implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getTargetDate() {
+    public LocalDateTime getTargetDate() {
         return targetDate;
     }
 
-    public void setTargetDate(LocalDate targetDate) {
+    public void setTargetDate(LocalDateTime targetDate) {
         this.targetDate = targetDate;
     }
 

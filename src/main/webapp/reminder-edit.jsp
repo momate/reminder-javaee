@@ -40,7 +40,7 @@
                                               <div class="form-group">
                                                   <div class="cols-sm-10">
                                                       <div class="input-group">
-                                                          <input type="date" class="form-control" name="date" id="date" value="${reminder.getTargetDate()}" />
+                                                          <input type="datetime-local" class="form-control" name="date" id="date" value="${reminder.getTargetDate()}" />
                                                       </div>
                                                   </div>
                                               </div>    

@@ -4,6 +4,8 @@ import com.momate.reminder.javaee.dao.ReminderDao;
 import com.momate.reminder.javaee.model.Reminder;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,7 +41,7 @@ public class ReminderEditServlet extends HttpServlet {
         Reminder reminderUpdate = dao.findById(id).get();
         reminderUpdate.setTitle(request.getParameter("title"));
         reminderUpdate.setDescription(request.getParameter("description"));
-        reminderUpdate.setTargetDate(LocalDate.parse(
+        reminderUpdate.setTargetDate(LocalDateTime.parse(
                 request.getParameter("date")));
 
         dao.update(reminderUpdate);

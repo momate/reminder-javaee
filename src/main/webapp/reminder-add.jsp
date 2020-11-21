@@ -29,21 +29,21 @@
                                             <div class="form-group">
                                                 <div class="cols-sm-10">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="title" id="title" placeholder="Title"/>
+                                                        <input type="text" class="form-control" name="title" id="title" placeholder="Title" required/>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="cols-sm-10">
                                                     <div class="input-group">
-                                                        <textarea type="text" class="form-control" name="description" id="description" placeholder="Description"></textarea>
+                                                        <textarea type="text" class="form-control" name="description" id="description" placeholder="Description" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="cols-sm-10">
                                                     <div class="input-group">
-                                                        <input type="date" class="form-control" name="date" id="date" />
+                                                        <input type="datetime-local" class="form-control" name="date" id="date" required/>
                                                     </div>
                                                 </div>
                                             </div>    

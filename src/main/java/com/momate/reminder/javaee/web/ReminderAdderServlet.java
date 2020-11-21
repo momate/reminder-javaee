@@ -5,6 +5,8 @@ import com.momate.reminder.javaee.dao.UserDao;
 import com.momate.reminder.javaee.model.Reminder;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,18 +33,17 @@ public class ReminderAdderServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-
+        
         Reminder reminder = new Reminder();
         Long userId = Long.parseLong(request
                 .getSession()
                 .getAttribute("loggedUserId")
                 .toString());
-        
+
         reminder.setTitle(request.getParameter("title"));
         reminder.setDescription(request.getParameter("description"));
-        reminder.setTargetDate(LocalDate.parse(
-                request.getParameter("date")));
-
+        reminder.setTargetDate(LocalDateTime
+                .parse(request.getParameter("date")));
         reminder.setUser(userDao.findById(userId).get());
         reminder.setStatus(true);
 

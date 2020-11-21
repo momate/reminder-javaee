@@ -24,7 +24,6 @@ public class ReminderFetchServlet extends HttpServlet {
                 request.getSession()
                         .getAttribute("loggedUserId")
                         .toString());
-        System.out.println(userId);
 
         List<Reminder> reminders = dao.findByUserId(userId);
         
