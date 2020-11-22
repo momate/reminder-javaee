@@ -1,9 +1,7 @@
 package com.momate.reminder.javaee.service;
 
 import com.momate.reminder.javaee.model.Reminder;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.logging.Level;
@@ -19,8 +17,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-@LocalBean
 @Singleton
+@LocalBean
 public class EmailUtility {
 
     private static final String EMAILPROPERTIES = "config.properties";
@@ -44,7 +42,8 @@ public class EmailUtility {
         }
     }
 
-    public void send(String recipientAddress, Reminder reminder) {
+    public void send(Reminder reminder) {
+        String recipientAddress = reminder.getUser().getEmail();
         try {
             Transport.send(constructMessage(authentication(), recipientAddress, reminder));
         } catch (MessagingException ex) {
@@ -59,8 +58,8 @@ public class EmailUtility {
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(recipientAddress));
         message.setSubject("REMINDER");
-        message.setText("Dear " + reminder.getUser().getFirstName() + ", "
-                + "\n\n "
+        message.setText("Dear " + reminder.getUser().getFirstName() + ","
+                + "\n\n"
                 + reminder.getTitle()
                 + "\n"
                 + reminder.getDescription());
