@@ -12,8 +12,7 @@
     <data-source>
         <name>java:global/reminder_db</name>
         <class-name>${ENV=JDBC_DRIVER}</class-name>
-        <server-name>${ENV=JDBC_SERVERNAME}</server-name>
-        <port-number>3306</port-number>
+        <server-name>${ENV=JDBC_HOST}</server-name>
         <database-name>${ENV=JDBC_DBNAME}</database-name>
         <user>${ENV=JDBC_USER}</user>
         <password>${ENV=JDBC_PASSWORD}</password>
