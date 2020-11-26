@@ -3,6 +3,6 @@
     <!-- Define Persistence Unit --> 
     <persistence-unit name="reminder-javaee" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <jta-data-source>jdbc/reminder</jta-data-source>   
+        <jta-data-source>java:global/reminder_db</jta-data-source>   
     </persistence-unit>
 </persistence>
