@@ -3,10 +3,11 @@ package com.momate.reminder.javaee.service;
 import com.momate.reminder.javaee.dao.LoginAuthenticater;
 import com.momate.reminder.javaee.dao.UserDao;
 import com.momate.reminder.javaee.model.User;
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Optional;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -14,6 +15,9 @@ import javax.inject.Inject;
 @Singleton
 @LocalBean
 public class UserService implements LoginAuthenticater {
+
+    private static final String key = "aesEncryptionKey";
+    private static final String initVector = "encryptionIntVec";
 
     @Inject
     private UserDao dao;
@@ -23,11 +27,13 @@ public class UserService implements LoginAuthenticater {
 
         Optional<User> u = dao.findByUsername(username);
 
-        return u.isPresent() && password.equals(u.get().getPassword());
+        return u.isPresent()
+                && password.equals(
+                        decrypt(u.get().getPassword())
+                );
 
     }
-   
-    
+
     public boolean validateUsername(String username) {
         return dao.findByUsername(username).isPresent();
     }
@@ -47,18 +53,38 @@ public class UserService implements LoginAuthenticater {
     public User getUserByUsername(String username) {
         return dao.findByUsername(username).get();
     }
-    
-       public String encryptPassword(String psw) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(psw.getBytes(Charset.forName("UTF-8")));
 
-        byte[] digest = md.digest();
-        StringBuilder sb = new StringBuilder();
-        for (byte b : digest) {
-            sb.append(String.format("%02x", b & 0xff));
+    public String encrypt(String value) {
+        try {
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+
+            byte[] encrypted = cipher.doFinal(value.getBytes());
+            return Base64.getEncoder().encodeToString(encrypted);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public String decrypt(String encrypted) {
+        try {
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+            byte[] original = cipher.doFinal(Base64.getDecoder().decode(encrypted));
+
+            return new String(original);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
-        return sb.toString();
+        return null;
     }
 
 }
