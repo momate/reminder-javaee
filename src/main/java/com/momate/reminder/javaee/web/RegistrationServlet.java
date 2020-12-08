@@ -18,7 +18,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Inject
     private UserService service;
-    
+
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
@@ -26,11 +26,7 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
         String username = request.getParameter("username");
-        String password = "";
-        
-        try {
-            password = service.encryptPassword(request.getParameter("password"));
-        } catch (NoSuchAlgorithmException ex){}
+        String password = service.encrypt(request.getParameter("password"));
 
         User user = new User();
         user.setFirstName(firstName);
@@ -40,7 +36,7 @@ public class RegistrationServlet extends HttpServlet {
         user.setPassword(password);
 
         service.addUser(user);
-        
+
         request.setAttribute("succes", SUCCES_MSG);
 
         request.getRequestDispatcher("register.jsp")
