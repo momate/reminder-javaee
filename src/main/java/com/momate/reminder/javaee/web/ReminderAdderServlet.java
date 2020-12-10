@@ -3,10 +3,15 @@ package com.momate.reminder.javaee.web;
 import com.momate.reminder.javaee.dao.ReminderDao;
 import com.momate.reminder.javaee.dao.UserDao;
 import com.momate.reminder.javaee.model.Reminder;
-import com.momate.reminder.javaee.service.EmailScheduler;
+import com.momate.reminder.javaee.service.Scheduler;
+import com.momate.reminder.javaee.service.EmailUtility;
+import com.momate.reminder.javaee.service.ReminderEmailTask;
+
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import javax.inject.Inject;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,9 +26,12 @@ public class ReminderAdderServlet extends HttpServlet {
 
     @Inject
     private UserDao userDao;
-    
+
     @Inject
-    private EmailScheduler scheduler;
+    private Scheduler scheduler;
+
+    @Inject
+    private EmailUtility email;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -49,12 +57,20 @@ public class ReminderAdderServlet extends HttpServlet {
         reminder.setUser(userDao.findById(userId).get());
         reminder.setStatus(true);
 
-        scheduler.setSchedule(reminder);
+        setSchedule(reminder);
 
         reminderDao.save(reminder);
 
         response.sendRedirect("list");
 
+    }
+
+    private void setSchedule(Reminder reminder) {
+        ReminderEmailTask task = new ReminderEmailTask(email, reminder);
+        Duration time = Duration.between(LocalDateTime.now(),
+                reminder.getTargetDate());
+
+        scheduler.setSchedule(task, time.toMillis());
     }
 
 }
