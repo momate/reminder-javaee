@@ -41,6 +41,14 @@ The data-source definition contains:
 Create a file called .env and put it in your project's "root", you need to have the variabes JDBC_DRIVER, JDBC_HOST,JDBC_DBNAME,JDBC_USER and JDBC_PASSWORD set as these will be replaced in the web.xml on deployment.
 This file will be read only when you run Heroku in your local environment.
 
+Set Email properties:
+
+Create a "config.properties" file, in the resources folder and and enter your email details you want to use to send the email.
+
+```
+email="YOUR EMAIL ADDRESS"
+password="YOUR EMAIL PASSWORD"
+```
 
 #### Deploy with Heroku Local ####
 
