@@ -66,7 +66,14 @@ public class ReminderAdderServlet extends HttpServlet {
     }
 
     private void setSchedule(Reminder reminder) {
-        ReminderEmailTask task = new ReminderEmailTask(email, reminder);
+        String subject = "Reminder";
+        String text = "Dear " + reminder.getUser().getFirstName() + ","
+                + "\n\n"
+                + reminder.getTitle()
+                + "\n"
+                + reminder.getDescription();
+
+        ReminderEmailTask task = new ReminderEmailTask(email, reminder, subject, text);
         Duration time = Duration.between(LocalDateTime.now(),
                 reminder.getTargetDate());
 

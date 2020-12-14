@@ -2,6 +2,7 @@ package com.momate.reminder.javaee.service;
 
 import com.momate.reminder.javaee.model.Reminder;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.logging.Level;
@@ -38,31 +39,30 @@ public class EmailUtility {
             } else {
                 throw new FileNotFoundException("property file '" + EMAILPROPERTIES + "' not found in the classpath");
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
+             Logger.getLogger(EmailUtility.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
-    public void send(Reminder reminder) {
-        String recipientAddress = reminder.getUser().getEmail();
+    public void send(String recipientAddress, String subject, String text) {
         try {
-            Transport.send(constructMessage(authentication(), recipientAddress, reminder));
+            Transport.send(constructMessage(authentication(), recipientAddress, subject, text));
         } catch (MessagingException ex) {
             Logger.getLogger(EmailUtility.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private Message constructMessage(Session session, String recipientAddress, Reminder reminder) throws MessagingException {
+    private Message constructMessage(Session session,
+            String recipientAddress,
+            String subject,
+            String text) throws MessagingException {
 
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(EMAIL));
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(recipientAddress));
-        message.setSubject("REMINDER");
-        message.setText("Dear " + reminder.getUser().getFirstName() + ","
-                + "\n\n"
-                + reminder.getTitle()
-                + "\n"
-                + reminder.getDescription());
+        message.setSubject(subject);
+        message.setText(text);
 
         return message;
 
