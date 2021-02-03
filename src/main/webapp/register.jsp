@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="ISO-8859-1">
-        <title>Reminder App</title>
+        <title>Registration</title>
 
         <link rel="stylesheet"
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
