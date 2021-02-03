@@ -2,3 +2,4 @@
 *.properties
 payara-micro.jar
 .env
+/nbproject/
