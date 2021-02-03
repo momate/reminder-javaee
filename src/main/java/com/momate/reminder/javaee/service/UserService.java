@@ -81,6 +81,8 @@ public class UserService implements LoginAuthenticater {
             throw new UserNotFoundException("User not found by username: " + username);
         }
     }
+    
+    //TODO: refactor the encryption and decryption methods
 
     public String encrypt(String value) {
         try {
@@ -92,6 +94,7 @@ public class UserService implements LoginAuthenticater {
 
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return Base64.getEncoder().encodeToString(encrypted);
+            
         } catch (UnsupportedEncodingException | InvalidAlgorithmParameterException | 
                 InvalidKeyException | NoSuchAlgorithmException | BadPaddingException |
                 IllegalBlockSizeException | NoSuchPaddingException ex) {
