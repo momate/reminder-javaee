@@ -2,10 +2,20 @@ package com.momate.reminder.javaee.service;
 
 import com.momate.reminder.javaee.dao.LoginAuthenticater;
 import com.momate.reminder.javaee.dao.UserDao;
+import com.momate.reminder.javaee.exception.UserNotFoundException;
 import com.momate.reminder.javaee.model.User;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.LocalBean;
@@ -16,16 +26,29 @@ import javax.inject.Inject;
 @LocalBean
 public class UserService implements LoginAuthenticater {
 
-    private static final String key = "aesEncryptionKey";
-    private static final String initVector = "encryptionIntVec";
+    private static final String KEY = "aesEncryptionKey";
+    private static final String INIT_VECTOR = "encryptionIntVec";
+
+    private UserDao dao;
 
     @Inject
-    private UserDao dao;
+    public UserService(UserDao dao) {
+        this.dao = dao;
+    }
+
+    public UserService() {
+    }
 
     @Override
     public boolean validateLogin(String username, String password) {
 
-        Optional<User> u = dao.findByUsername(username);
+        Optional<User> u;
+        try {
+            u = this.getUserByUsername(username);
+        } catch (UserNotFoundException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
 
         return u.isPresent()
                 && password.equals(
@@ -50,41 +73,49 @@ public class UserService implements LoginAuthenticater {
         dao.save(user);
     }
 
-    public User getUserByUsername(String username) {
-        return dao.findByUsername(username).get();
+    public Optional<User> getUserByUsername(String username) throws UserNotFoundException {
+        Optional<User> usr = dao.findByUsername(username);
+        if (usr.isPresent()) {
+            return usr;
+        } else {
+            throw new UserNotFoundException("User not found by username: " + username);
+        }
     }
 
     public String encrypt(String value) {
         try {
-            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
-            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+            IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(KEY.getBytes("UTF-8"), "AES");
 
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
 
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return Base64.getEncoder().encodeToString(encrypted);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (UnsupportedEncodingException | InvalidAlgorithmParameterException | 
+                InvalidKeyException | NoSuchAlgorithmException | BadPaddingException |
+                IllegalBlockSizeException | NoSuchPaddingException ex) {
+            System.out.println("");
         }
-        return null;
+        return " ";
     }
 
     public String decrypt(String encrypted) {
         try {
-            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
-            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+            IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(KEY.getBytes("UTF-8"), "AES");
 
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
             byte[] original = cipher.doFinal(Base64.getDecoder().decode(encrypted));
 
             return new String(original);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (UnsupportedEncodingException | InvalidAlgorithmParameterException |
+                InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | 
+                IllegalBlockSizeException | NoSuchPaddingException ex) {
         }
 
-        return null;
+        return " ";
     }
 
 }
