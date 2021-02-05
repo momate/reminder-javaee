@@ -3,7 +3,6 @@ package com.momate.reminder.javaee.web;
 import com.momate.reminder.javaee.model.User;
 import com.momate.reminder.javaee.service.UserService;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +18,7 @@ public class RegistrationServlet extends HttpServlet {
     @Inject
     private UserService service;
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 

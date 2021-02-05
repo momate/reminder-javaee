@@ -12,7 +12,7 @@
             <ul class="navigation">
 
                 <c:if test="${not empty loggedUserId}">
-                    <a><li> Hi <i><c:out value="${loggedUsername}"/></i>!</li></a>
+                    <a><li> Hi <i><c:out value="${loggedUsername}"/></i></li></a>
                     <a href="<%= request.getContextPath()%>/logout"><li>Log Out</li></a>      
                         </c:if>
                         <c:if test="${empty loggedUserId}">

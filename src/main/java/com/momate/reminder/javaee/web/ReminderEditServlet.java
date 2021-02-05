@@ -25,7 +25,7 @@ public class ReminderEditServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        id = Long.parseLong(request.getParameter("reminderId").toString());
+        id = Long.parseLong(request.getParameter("reminderId"));
         Reminder reminderUpdate = dao.findById(id).get();
 
         request.setAttribute("reminder", reminderUpdate);
@@ -46,7 +46,7 @@ public class ReminderEditServlet extends HttpServlet {
 
         dao.update(reminderUpdate);
 
-        response.sendRedirect("list");
+        response.sendRedirect("/list");
 
     }
 

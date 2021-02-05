@@ -1,5 +1,6 @@
 package com.momate.reminder.javaee.web;
 
+import com.momate.reminder.javaee.dao.UserDao;
 import com.momate.reminder.javaee.exception.UserNotFoundException;
 import com.momate.reminder.javaee.service.UserService;
 import java.io.IOException;
@@ -10,9 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    private static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
 
     private static final long serialVersionUID = 1l;
 
@@ -33,7 +37,10 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("NOTIFICATION", ex.getMessage());
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
-
+        LOGGER.info("User Logged: " + username);
+        LOGGER.debug("User Logged: " + username);
+        
+        
         response.sendRedirect("list");
     }
 

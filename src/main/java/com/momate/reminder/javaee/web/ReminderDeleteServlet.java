@@ -21,7 +21,7 @@ public class ReminderDeleteServlet extends HttpServlet{
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
    
-        Long id = Long.parseLong(request.getParameter("reminderId").toString());
+        Long id = Long.parseLong(request.getParameter("reminderId"));
         Reminder reminder = dao.findById(id).get();
         
         dao.delete(reminder);
