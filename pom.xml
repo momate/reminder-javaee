@@ -17,8 +17,10 @@
         <mysql>8.0.22</mysql>
         <javamail>1.6.5</javamail>
         <payara.version>5.193.1</payara.version>
-        <mockito.version>3.3.3</mockito.version>
+        <mockito.version>1.10.19</mockito.version>
         <junit.jupiter.version>5.6.2</junit.jupiter.version>
+        <log4j.version>2.13.3</log4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
 
     </properties>
     
@@ -74,28 +76,34 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-        
-<!--        <dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
+            <artifactId>mockito-all</artifactId>
             <version>${mockito.version}</version>
             <scope>test</scope>
-        </dependency>-->
-        <!--        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
-<dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-all</artifactId>
-    <version>1.10.19</version>
-    <scope>test</scope>
-</dependency>
+        </dependency>
 
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
        
     </dependencies>
     
