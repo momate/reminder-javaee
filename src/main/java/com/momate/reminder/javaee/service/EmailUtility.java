@@ -1,92 +1,75 @@
 package com.momate.reminder.javaee.service;
 
-import com.momate.reminder.javaee.model.Reminder;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import com.mailjet.client.ClientOptions;
+import com.mailjet.client.MailjetClient;
+import com.mailjet.client.MailjetRequest;
+import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
+import com.mailjet.client.resource.Emailv31;
+import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @Singleton
 @LocalBean
 public class EmailUtility {
 
-    private static final String EMAILPROPERTIES = "config.properties";
-    private static String EMAIL = "";
-    private static String PSW = "";
+    private MailjetClient client;
+    private MailjetRequest request;
 
-    @PostConstruct
-    public void init() {
+    public void send(JSONObject email) {
         try {
-            Properties prop = new Properties();
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(EMAILPROPERTIES);
-
-            if (inputStream != null) {
-                prop.load(inputStream);
-                EMAIL = prop.getProperty("email");
-                PSW = prop.getProperty("password");
-            } else {
-                throw new FileNotFoundException("property file '" + EMAILPROPERTIES + "' not found in the classpath");
-            }
-        } catch (IOException e) {
-             Logger.getLogger(EmailUtility.class.getName()).log(Level.SEVERE, null, e);
-        }
-    }
-
-    public void send(String recipientAddress, String subject, String text) {
-        try {
-            Transport.send(constructMessage(authentication(), recipientAddress, subject, text));
-        } catch (MessagingException ex) {
+            request = initRequest(email);
+            client.post(request);
+        } catch (MailjetException ex) {
+            Logger.getLogger(EmailUtility.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MailjetSocketTimeoutException ex) {
             Logger.getLogger(EmailUtility.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private Message constructMessage(Session session,
-            String recipientAddress,
-            String subject,
-            String text) throws MessagingException {
-
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(EMAIL));
-        message.setRecipients(Message.RecipientType.TO,
-                InternetAddress.parse(recipientAddress));
-        message.setSubject(subject);
-        message.setText(text);
-
-        return message;
 
     }
 
-    private Properties getInicializedProperties() {
-        Properties props = new Properties();
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+    public JSONObject constructMessage(String emailFrom, String nameFrom, String emailTo, String nameTo, String subject, String text) {
+        JSONObject email = new JSONObject();
 
-        return props;
+        email.put(Emailv31.Message.FROM, new JSONObject()
+                .put("Email", emailFrom)
+                .put("Name", nameFrom));
+
+        email.put(Emailv31.Message.TO, new JSONArray()
+                .put(new JSONObject()
+                        .put("Email", emailTo)
+                        .put("Name", nameTo)))
+                .put(Emailv31.Message.SUBJECT, subject)
+                .put(Emailv31.Message.HTMLPART, text)
+                .put(Emailv31.Message.CUSTOMID, UUID.randomUUID());
+
+        return email;
     }
 
-    private Session authentication() {
-        Session session = Session.getInstance(getInicializedProperties(),
-                new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(EMAIL, PSW);
-            }
-        });
+    @PostConstruct
+    private void initClient() {
+        String apiKey = System.getenv("MAILJET_API_KEY");
+        String secretKey = System.getenv("MAILJET_SECRET_KEY");
 
-        return session;
+        if (apiKey.isEmpty()) {
+            throw new InvalidParameterException("ApiKey not found");
+        } else {
+            client = new MailjetClient(apiKey, secretKey,
+                    new ClientOptions("v3.1"));
+        }
+    }
+
+    private MailjetRequest initRequest(JSONObject email) {
+        MailjetRequest request = new MailjetRequest(Emailv31.resource)
+                .property(Emailv31.MESSAGES, new JSONArray().put(email));
+        return request;
     }
 
 }
