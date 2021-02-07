@@ -15,7 +15,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <jakartaee>8.0</jakartaee>
         <mysql>8.0.22</mysql>
-        <javamail>1.6.5</javamail>
+        <mailjet.version>4.2.0</mailjet.version>
         <payara.version>5.193.1</payara.version>
         <mockito.version>1.10.19</mockito.version>
         <junit.jupiter.version>5.6.2</junit.jupiter.version>
@@ -30,12 +30,6 @@
             <artifactId>javaee-api</artifactId>
             <version>${jakartaee}</version>
             <scope>provided</scope>
-        </dependency>
-     
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>jakarta.mail</artifactId>
-            <version>${javamail}</version>
         </dependency>
         
         <dependency>
@@ -101,8 +95,13 @@
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-slf4j-impl</artifactId>
+            <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mailjet</groupId>
+            <artifactId>mailjet-client</artifactId>
+            <version>${mailjet.version}</version>
         </dependency>
        
     </dependencies>
