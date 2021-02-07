@@ -1,32 +1,21 @@
 package com.momate.reminder.javaee.service;
 
-import com.momate.reminder.javaee.model.Reminder;
 import java.util.TimerTask;
-import javax.inject.Inject;
+import org.json.JSONObject;
 
 public class ReminderEmailTask extends TimerTask {
 
-    private EmailUtility email;
-    private Reminder reminder;
-    private String subject;
-    private String text;
+    private final EmailUtility emailUtility;
+    private JSONObject email;
 
-    @Inject
-    public ReminderEmailTask(EmailUtility email, Reminder reminder) {
+    public ReminderEmailTask(EmailUtility emailUtility, JSONObject email) {
+        this.emailUtility = emailUtility;
         this.email = email;
-        this.reminder = reminder;
-    }
-
-    public ReminderEmailTask(EmailUtility email, Reminder reminder, String subject, String text) {
-        this.email = email;
-        this.reminder = reminder;
-        this.subject = subject;
-        this.text = text;
     }
 
     @Override
     public void run() {
-        email.send(reminder.getUser().getEmail(), subject, text);
+        emailUtility.send(email);
 
     }
 
