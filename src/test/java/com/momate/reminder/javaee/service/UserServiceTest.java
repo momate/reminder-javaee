@@ -118,12 +118,12 @@ public class UserServiceTest {
 
     @Test
     public void testValidateLoginWithIncorrectUsernameCorrectPasswoerd() {
-        String password = "wrong";
-        String username = "wrong";
+        String username = "";
         when(userDao.findByUsername(username))
-                .thenReturn(Optional.empty());
+                .thenReturn(Optional.of(u));
 
-        assertFalse(underTest.validateLogin(username, password));
+        assertFalse(underTest.validateLogin(username, u.getPassword()));
+
     }
 
     @Test

@@ -10,8 +10,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -21,10 +19,14 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 @LocalBean
 public class UserService implements LoginAuthenticater {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     private static final String KEY = "aesEncryptionKey";
     private static final String INIT_VECTOR = "encryptionIntVec";
@@ -46,7 +48,7 @@ public class UserService implements LoginAuthenticater {
         try {
             u = this.getUserByUsername(username);
         } catch (UserNotFoundException ex) {
-            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(ex.getMessage());
             return false;
         }
 
@@ -81,9 +83,8 @@ public class UserService implements LoginAuthenticater {
             throw new UserNotFoundException("User not found by username: " + username);
         }
     }
-    
-    //TODO: refactor the encryption and decryption methods
 
+    //TODO: refactor the encryption and decryption methods
     public String encrypt(String value) {
         try {
             IvParameterSpec iv = new IvParameterSpec(INIT_VECTOR.getBytes("UTF-8"));
@@ -94,11 +95,12 @@ public class UserService implements LoginAuthenticater {
 
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return Base64.getEncoder().encodeToString(encrypted);
-            
-        } catch (UnsupportedEncodingException | InvalidAlgorithmParameterException | 
-                InvalidKeyException | NoSuchAlgorithmException | BadPaddingException |
-                IllegalBlockSizeException | NoSuchPaddingException ex) {
-            System.out.println("");
+
+        } catch (UnsupportedEncodingException | InvalidAlgorithmParameterException
+                | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException
+                | IllegalBlockSizeException | NoSuchPaddingException ex) {
+            LOGGER.error("Error occurred during encryption : "
+                    + ex.toString() + " " + ex.getMessage());
         }
         return " ";
     }
@@ -113,9 +115,11 @@ public class UserService implements LoginAuthenticater {
             byte[] original = cipher.doFinal(Base64.getDecoder().decode(encrypted));
 
             return new String(original);
-        } catch (UnsupportedEncodingException | InvalidAlgorithmParameterException |
-                InvalidKeyException | NoSuchAlgorithmException | BadPaddingException | 
-                IllegalBlockSizeException | NoSuchPaddingException ex) {
+        } catch (UnsupportedEncodingException | InvalidAlgorithmParameterException
+                | InvalidKeyException | NoSuchAlgorithmException | BadPaddingException
+                | IllegalBlockSizeException | NoSuchPaddingException ex) {
+            LOGGER.error("Error occurred during decryption : "
+                    + ex.toString() + " " + ex.getMessage());
         }
 
         return " ";

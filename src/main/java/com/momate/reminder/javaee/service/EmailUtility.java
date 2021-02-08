@@ -8,17 +8,19 @@ import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Emailv31;
 import java.security.InvalidParameterException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 @LocalBean
 public class EmailUtility {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailUtility.class);
 
     private MailjetClient client;
     private MailjetRequest request;
@@ -27,10 +29,8 @@ public class EmailUtility {
         try {
             request = initRequest(email);
             client.post(request);
-        } catch (MailjetException ex) {
-            Logger.getLogger(EmailUtility.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MailjetSocketTimeoutException ex) {
-            Logger.getLogger(EmailUtility.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MailjetException | MailjetSocketTimeoutException ex) {
+            LOGGER.error("Error occurred during email sending: " + ex.getMessage());
         }
 
     }
@@ -67,7 +67,7 @@ public class EmailUtility {
     }
 
     private MailjetRequest initRequest(JSONObject email) {
-        MailjetRequest request = new MailjetRequest(Emailv31.resource)
+         request = new MailjetRequest(Emailv31.resource)
                 .property(Emailv31.MESSAGES, new JSONArray().put(email));
         return request;
     }

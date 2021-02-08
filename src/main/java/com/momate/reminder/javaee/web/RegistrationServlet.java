@@ -9,9 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(RegistrationServlet.class);
 
     private static final String SUCCES_MSG = "Successful registration!";
 
@@ -38,7 +42,7 @@ public class RegistrationServlet extends HttpServlet {
         service.addUser(user);
 
         request.setAttribute("succes", SUCCES_MSG);
-
+        LOGGER.info("New registration with " + username + " username!");
         request.getRequestDispatcher("register.jsp")
                 .forward(request, response);
 
