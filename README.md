@@ -20,15 +20,17 @@ If you want to see the email, please use a valid email addres for the User entit
 * Servlets
 * JSP
 * JSTL
-* Java Mail
+* Java Mail -> MailJet
 * PostgreSQL/MySQL
 * Payara Micro
+* SLF4J - Log4J2
+* JUnit5 - Mockito
 
 ## Setup and Run ##
 
 Data source:
 
-The data-source definition contains:
+The data-source definition in the web.xml file contains:
 
 ```
         <class-name>${ENV=JDBC_DRIVER}</class-name>
@@ -38,16 +40,25 @@ The data-source definition contains:
         <password>${ENV=JDBC_PASSWORD}</password>
 
 ```
-Create a file called .env and put it in your project's "root", you need to have the variabes JDBC_DRIVER, JDBC_HOST,JDBC_DBNAME,JDBC_USER and JDBC_PASSWORD set as these will be replaced in the web.xml on deployment.
-This file will be read only when you run Heroku in your local environment.
+Create a file called .env and put it in your project's "root", you need to have the same variable name as above. These will be replaced on deployment.
+```
+	JDBC_DRIVER=...
+	JDBC_HOST=..
+	JDBC_DBNAME=...
+	JDBC_USER=...
+	JDBC_PASSWORD=...
+	
+```
+This file will only be read when you run Heroku in your local environment.
 
 Set Email properties:
 
-Create a "config.properties" file, in the resources folder and and enter your email details you want to use to send the email.
+To use the email sending function, you need to have a MailJet account and it's api and secret key. Add these to the .env file too.
+
 
 ```
-email="YOUR EMAIL ADDRESS"
-password="YOUR EMAIL PASSWORD"
+	MAILJET_SECRET_KEY=...
+	MAILJET_API_KEY=...
 ```
 
 #### Deploy with Heroku Local ####
@@ -62,11 +73,12 @@ From the command line, execute the following command:
  heroku local web -f Procfile.local
 ```
 
-First line is compile the project, and use the profile named 'dist', and then the second line run the local heroku.
+First line is compile the project, and uses the profile named 'dist', and then the second line runs the local heroku.
 
 #### Deploy without Heroku ####
 
-In the data source example above, change dircetly the values in the web.xml file.
+Change dircetly the values in the web.xml file based on the data source example above.
+Currently the MailJet keys have to be set as environment variable. That will be change later.
 Download and put the payara-micro.jar file in your project directory, and deploy with this command line:
 ```
 java -jar payara-micro.jar --deploy <path-to-your-war-file>
